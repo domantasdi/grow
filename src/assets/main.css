@@ -1,0 +1,27 @@
+@import url('./base.css');
+
+#app {
+  width: auto;
+  margin: 0 25%;
+  margin-top: 48px;
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsl(160deg 100% 37% / 100%);
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsl(160deg 100% 37% / 20%);
+  }
+}
+
+@media (width <= 768px) {
+  #app {
+    margin: 0 5%;
+  }
+}
