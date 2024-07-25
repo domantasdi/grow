@@ -23,7 +23,7 @@ defineProps({
   <div class="wrapper">
     <div class="icon">Icon</div>
     <div class="details">
-      <p class="habit">{{ habit }}</p>
+      <p class="habit">I will {{ habit }}</p>
       <p class="trigger">Whenever I {{ trigger }}</p>
     </div>
     <div class="buttons">
@@ -75,13 +75,18 @@ div.buttons {
   border-left: 1px solid #c3c3c3;
 }
 
-div.buttons .done-button {
+div.buttons .done-button,
+div.buttons .stop-button {
+  font-weight: 400;
   flex-grow: 1;
   align-items: center;
   justify-content: center;
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+div.buttons .done-button {
   border-bottom: 1px solid #c3c3c3;
   user-select: none;
 }
@@ -99,11 +104,6 @@ div.buttons .done-button:active {
 }
 
 div.buttons .stop-button {
-  flex-grow: 1;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
   width: 100%;
   user-select: none;
 }
@@ -121,11 +121,12 @@ div.buttons .stop-button:active {
 }
 
 p.habit {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 p.trigger {
   color: #666;
+  font-weight: 400;
 }
 
 @media (width <= 768px) {

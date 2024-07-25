@@ -5,28 +5,44 @@ import getStoredHabits, { HABITS_KEY } from './habits';
 const habitTitle = ref('');
 const habitTrigger = ref('');
 const errorMessage = ref('');
-const id = ref(0);
+
+const emit = defineEmits(['add-habit']);
 
 const addHabit = () => {
+  // Emptying the error message
   errorMessage.value = '';
 
+  // Error message for empty inputs
   if (!habitTitle.value.trim() || !habitTrigger.value.trim()) {
     errorMessage.value = 'Both fields are required.';
     return;
   }
 
   const habits = getStoredHabits();
+
+  // Checking which ID to use
+  let lastHabitId;
+  if (habits.length === 0) {
+    lastHabitId = 0;
+  } else {
+    lastHabitId = habits[habits.length - 1].id;
+  }
+
+  // An object template for a new habit
   const newHabit = {
-    id: id.value + 1,
+    id: lastHabitId + 1,
     habit: habitTitle.value.trim(),
     trigger: habitTrigger.value.trim(),
     trackingSince: new Date(Date.now()).toISOString().split('T')[0]
   };
 
-  habits.push(newHabit);
+  emit('add-habit', newHabit);
 
+  // Pushing the newly created habit to the local storage
+  habits.push(newHabit);
   localStorage.setItem(HABITS_KEY, JSON.stringify(habits));
 
+  // Emptying the input fields
   habitTitle.value = '';
   habitTrigger.value = '';
 };
@@ -35,20 +51,26 @@ const addHabit = () => {
 <template>
   <div class="wrapper">
     <div class="details">
-      <input
-        name="habit-title"
-        id="habit-title"
-        type="text"
-        v-model="habitTitle"
-        placeholder="I will..."
-      />
-      <input
-        name="habit-trigger"
-        id="habit-trigger"
-        type="text"
-        v-model="habitTrigger"
-        placeholder="Whenever I..."
-      />
+      <div>
+        <label for="habit-title">I will...</label>
+        <input
+          name="habit-title"
+          id="habit-title"
+          type="text"
+          v-model="habitTitle"
+          placeholder="Enter a habit"
+        />
+      </div>
+      <div>
+        <label for="habit-trigger">Whenever I...</label>
+        <input
+          name="habit-trigger"
+          id="habit-trigger"
+          type="text"
+          v-model="habitTrigger"
+          placeholder="Enter a trigger"
+        />
+      </div>
     </div>
     <div class="button">
       <button type="submit" @click="addHabit">Add</button>
@@ -58,6 +80,10 @@ const addHabit = () => {
 </template>
 
 <style scoped>
+label {
+  font-weight: 600;
+}
+
 div.wrapper {
   display: flex;
   flex-direction: row;
@@ -92,6 +118,21 @@ div.details input {
 
 div.details p {
   color: #1a1a1a;
+}
+
+div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+div.wrapper div.details div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #1a1a1a;
+  flex-grow: 1;
+  width: 100%;
 }
 
 div.button {
@@ -129,12 +170,6 @@ div.button button:active {
   cursor: pointer;
 }
 
-div {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 div.button p {
   color: green;
 }
@@ -146,10 +181,17 @@ p.error-message {
 @media (width <= 768px) {
   div.details {
     flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
   }
 
   div.details input {
     width: 100%;
+  }
+
+  div.wrapper div.details div {
+    color: #1a1a1a;
+    flex-grow: 1;
   }
 }
 </style>

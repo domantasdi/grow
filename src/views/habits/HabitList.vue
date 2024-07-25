@@ -1,21 +1,23 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import HabitCard from '../../components/habits/HabitCard.vue';
 import getStoredHabits, { HABITS_KEY } from './habits';
-import HabitDetails from './HabitDetails.vue';
+import AddHabit from './AddHabit.vue';
 
 const habits = ref(getStoredHabits());
 
-watch(habits, (updatedHabits) => {
-  localStorage.setItem(HABITS_KEY, JSON.stringify(updatedHabits));
-});
+const handleAddHabit = (newHabit) => {
+  habits.value.push(newHabit);
+  localStorage.setItem(HABITS_KEY, JSON.stringify(habits.value));
+};
 </script>
 
 <template>
   <main>
-    <HabitDetails></HabitDetails>
+    <!-- <p>{{ habits }}</p> -->
+    <AddHabit @add-habit="handleAddHabit"></AddHabit>
     <HabitCard
-      v-for="habit in habits"
+      v-for="habit in habits.slice().reverse()"
       :key="habit.id"
       :habit="habit.habit"
       :trigger="habit.trigger"
