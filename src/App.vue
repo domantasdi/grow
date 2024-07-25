@@ -16,6 +16,7 @@ import { RouterLink, RouterView } from 'vue-router';
 
     <!-- * And this is outside of the routed view, so it's always rendered: -->
     <div class="disclaimer">
+      <p><strong>Remember:</strong></p>
       <p>
         All big things come from small beginnings. The seed of every habit is a single, tiny
         decision. But as that decision is repeated, a habit sprouts and grows stronger. Roots
@@ -29,6 +30,7 @@ import { RouterLink, RouterView } from 'vue-router';
 
 <style scoped>
 .disclaimer {
+  margin-top: 24px;
   font-size: 0.75rem;
   line-height: 150%;
   color: #777;
@@ -52,6 +54,10 @@ nav {
   width: 100%;
   font-size: 16px;
   text-align: center;
+}
+
+p:first-child {
+  padding-bottom: 8px;
 }
 
 @media (width <= 768px) {
