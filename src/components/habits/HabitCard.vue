@@ -36,7 +36,13 @@ defineEmits(['edit', 'delete']);
       <p class="trigger">Whenever I {{ trigger }}</p>
     </div>
     <div class="buttons">
-      <div role="button" tabindex="0" @keydown="Tab" @click="$emit('edit')" class="positive-button">
+      <div
+        role="button"
+        tabindex="0"
+        @keydown="Tab"
+        @click="$emit('edit')"
+        class="positive-button"
+      >
         <p>{{ positiveAction }}</p>
       </div>
       <div

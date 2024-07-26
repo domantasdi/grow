@@ -150,8 +150,8 @@ div.button {
 }
 
 div.button button {
-  color: #1a1a1a;
-  font-size: 15px;
+  color: #006e0c;
+  font-size: 14px;
   width: 100%;
   height: 100%;
   background-color: white;
