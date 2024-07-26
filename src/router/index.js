@@ -1,17 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-// import FavoritesView from '../views/FavoritesView/FavoritesView.vue';
+import HabitList from '../views/habits/HabitList.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HabitList
   },
   {
-    path: '/habits',
+    path: '/manage-habits',
     name: 'habits',
-    component: () => import('../views/habits/HabitList.vue')
+    component: () => import('../views/HabitManagementView.vue')
   }
 ];
 

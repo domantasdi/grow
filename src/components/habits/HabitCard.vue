@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/require-default-prop -->
 <script setup>
 defineProps({
   id: {
@@ -15,8 +16,16 @@ defineProps({
   trackingSince: {
     type: Date,
     required: true
+  },
+  positiveAction: {
+    type: Function
+  },
+  negativeAction: {
+    type: Function
   }
 });
+
+defineEmits(['edit', 'delete']);
 </script>
 
 <template>
@@ -27,11 +36,17 @@ defineProps({
       <p class="trigger">Whenever I {{ trigger }}</p>
     </div>
     <div class="buttons">
-      <div class="done-button">
-        <p>Done</p>
+      <div role="button" tabindex="0" @keydown="Tab" @click="$emit('edit')" class="positive-button">
+        <p>{{ positiveAction }}</p>
       </div>
-      <div class="stop-button">
-        <p>Stop</p>
+      <div
+        role="button"
+        tabindex="0"
+        @keydown="Tab"
+        @click="$emit('delete')"
+        class="negative-button"
+      >
+        <p>{{ negativeAction }}</p>
       </div>
     </div>
   </div>
@@ -75,8 +90,8 @@ div.buttons {
   border-left: 1px solid #c3c3c3;
 }
 
-div.buttons .done-button,
-div.buttons .stop-button {
+div.buttons .positive-button,
+div.buttons .negative-button {
   font-weight: 400;
   flex-grow: 1;
   align-items: center;
@@ -86,36 +101,44 @@ div.buttons .stop-button {
   width: 100%;
 }
 
-div.buttons .done-button {
+div.buttons .positive-button {
   border-bottom: 1px solid #c3c3c3;
   user-select: none;
 }
 
-div.buttons .done-button:hover {
+div.buttons .positive-button p {
+  color: #006e0c;
+}
+
+div.buttons .positive-button:hover {
   background-color: #e9f5ec;
   border-top-right-radius: 8px;
   cursor: pointer;
 }
 
-div.buttons .done-button:active {
+div.buttons .positive-button:active {
   background-color: #c9e4d0;
   border-top-right-radius: 8px;
   cursor: pointer;
 }
 
-div.buttons .stop-button {
+div.buttons .negative-button {
   width: 100%;
   user-select: none;
 }
 
-div.buttons .stop-button:hover {
-  background-color: #f5e9f2;
+div.buttons .negative-button p {
+  color: #b30000;
+}
+
+div.buttons .negative-button:hover {
+  background-color: #ffedf2;
   border-bottom-right-radius: 8px;
   cursor: pointer;
 }
 
-div.buttons .stop-button:active {
-  background-color: #e4c9dd;
+div.buttons .negative-button:active {
+  background-color: #ffd6dd;
   border-bottom-right-radius: 8px;
   cursor: pointer;
 }

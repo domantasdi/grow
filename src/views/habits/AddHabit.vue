@@ -175,7 +175,7 @@ div.button p {
 }
 
 p.error-message {
-  color: #ff7070;
+  color: #e94747;
 }
 
 @media (width <= 768px) {
