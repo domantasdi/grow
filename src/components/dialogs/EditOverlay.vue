@@ -1,14 +1,36 @@
+<!-- eslint-disable vue/require-default-prop -->
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
-// import { ref } from 'vue';
+const props = defineProps(['initialTitle', 'initialTrigger']);
+const emit = defineEmits(['close', 'commit']);
 
-const newHabitTitle = ref('');
-const newHabitTrigger = ref('');
+const newHabitTitle = ref(props.initialTitle);
+const newHabitTrigger = ref(props.initialTrigger);
+const errorMessage = ref('');
 
-defineProps(['habit', 'trigger']);
+watch(
+  () => props.initialTitle,
+  (newVal) => {
+    newHabitTitle.value = newVal;
+  }
+);
 
-defineEmits(['close', 'commit']);
+watch(
+  () => props.initialTrigger,
+  (newVal) => {
+    newHabitTrigger.value = newVal;
+  }
+);
+
+const commitChanges = () => {
+  if (!newHabitTitle.value.trim() || !newHabitTrigger.value.trim()) {
+    errorMessage.value = 'Both fields are required.';
+  } else {
+    errorMessage.value = '';
+    emit('commit', newHabitTitle.value, newHabitTrigger.value);
+  }
+};
 </script>
 
 <template>
@@ -21,14 +43,31 @@ defineEmits(['close', 'commit']);
         <p class="body-text">
           <slot name="bodyText">Default body text</slot>
         </p>
-        <input v-model="newHabitTitle" placeholder="New title" />
-        <input v-model="newHabitTrigger" placeholder="New trigger" />
+        <div class="inputs">
+          <div class="title">
+            <label for="habit-title">I will: </label>
+            <input
+              name="habit-title"
+              v-model="newHabitTitle"
+              :placeholder="initialTitle"
+            />
+          </div>
+          <div class="trigger">
+            <label for="habit-trigger">Whenever I: </label>
+            <input
+              name="habit-trigger"
+              v-model="newHabitTrigger"
+              :placeholder="initialTrigger"
+            />
+          </div>
+        </div>
+        <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
       </div>
       <div class="buttons">
         <div @keydown="Tab" @click="$emit('close')" class="negative-button">
           <slot name="negative-action">No</slot>
         </div>
-        <div @keydown="Tab" @click="$emit('commit')" class="positive-button">
+        <div @keydown="Tab" @click="commitChanges" class="positive-button">
           <slot name="positive-action">Yes</slot>
         </div>
       </div>
@@ -67,7 +106,37 @@ div.header {
 }
 
 div.details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   font-size: 14px;
+}
+
+div.inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+div.inputs div.title,
+div.inputs div.trigger {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+div.inputs input {
+  border: 1px solid #c3c3c3;
+  border-radius: 8px;
+  padding: 0;
+  padding-left: 16px;
+  font-size: 14px;
+  min-height: 40px;
+}
+
+div.inputs label {
+  font-weight: 600;
 }
 
 div.buttons {
@@ -120,6 +189,10 @@ div.buttons .negative-button:hover {
 div.buttons .negative-button:active {
   background-color: #ffd6dd;
   cursor: pointer;
+}
+
+p.error-message {
+  color: #b30000;
 }
 
 @media (width <= 768px) {
