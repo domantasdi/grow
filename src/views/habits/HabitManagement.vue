@@ -10,22 +10,28 @@ const habits = ref(getStoredHabits());
 const showDeleteDialog = ref(false);
 const showEditDialog = ref(false);
 const selectedHabitId = ref(null);
-const selectedHabit = ref('null');
+const selectedHabit = ref('');
+const selectedHabitTrigger = ref('');
+const selectedHabitIndex = ref(null);
 
 const handleAddHabit = (newHabit) => {
   habits.value.push(newHabit);
 };
 
 const openDeleteDialog = (habitId, habit) => {
+  showDeleteDialog.value = true;
   selectedHabitId.value = habitId;
   selectedHabit.value = habit;
-  showDeleteDialog.value = true;
 };
 
-const openEditDialog = (habitId, habit) => {
-  selectedHabitId.value = habitId;
-  selectedHabit.value = habit;
+const openEditDialog = (habitId, habitTitle, habitTrigger) => {
   showEditDialog.value = true;
+  selectedHabitId.value = habitId;
+  selectedHabit.value = habitTitle;
+  selectedHabitTrigger.value = habitTrigger;
+  selectedHabitIndex.value = habits.value.findIndex(
+    (habit) => habit.id === habitId
+  );
 };
 
 const closeDeleteDialog = () => {
@@ -36,7 +42,12 @@ const closeEditDialog = () => {
   showEditDialog.value = false;
 };
 
-// TODO: Add a function to edit the habit
+const editHabit = (newHabitTitle, newHabitTrigger) => {
+  const index = selectedHabitIndex.value;
+  habits.value[index].habit = newHabitTitle;
+  habits.value[index].trigger = newHabitTrigger;
+  closeEditDialog();
+};
 
 const deleteHabit = () => {
   if (selectedHabitId.value !== null) {
@@ -47,58 +58,60 @@ const deleteHabit = () => {
   }
 };
 
-watch(habits, (updatedHabits) => {
-  localStorage.setItem(HABITS_KEY, JSON.stringify(updatedHabits));
-});
+watch(
+  habits,
+  (updatedHabits) => {
+    localStorage.setItem(HABITS_KEY, JSON.stringify(updatedHabits));
+  },
+  { deep: true }
+);
 </script>
 
 <template>
   <main>
+    <!-- {{ habits }} -->
     <AddHabit @add-habit="handleAddHabit"></AddHabit>
     <div v-if="habits.length === 0">
       <p>No habits to display. Try adding one now!</p>
     </div>
 
-    <DeleteOverlay v-if="showDeleteDialog" @close="closeDeleteDialog">
+    <DeleteOverlay
+      v-if="showDeleteDialog"
+      @commit="deleteHabit"
+      @close="closeDeleteDialog"
+    >
       <template #header> Delete habit? </template>
       <template #bodyText>
         Are you sure you want to delete the habit
-        <strong> {{ selectedHabit }} </strong>
-        ? This action cannot be undone.
+        <strong>{{ selectedHabit }}</strong
+        >? This action cannot be undone.
       </template>
       <template #positive-action>
-        <div
-          @keydown="Tab"
-          role="button"
-          tabindex="0"
-          @click="closeDeleteDialog"
-        >
-          Cancel
-        </div>
+        <div @keydown="Tab" role="button" tabindex="0">Cancel</div>
       </template>
       <template #negative-action>
-        <div @keydown="Tab" role="button" tabindex="0" @click="deleteHabit">
-          Yes, delete
-        </div>
+        <div @keydown="Tab" role="button" tabindex="0">Yes, delete</div>
       </template>
     </DeleteOverlay>
 
-    <EditOverlay v-if="showEditDialog" @close="closeEditDialog">
-      <template #header>Edit habit?</template>
+    <EditOverlay
+      v-if="showEditDialog"
+      :initialTitle="selectedHabit"
+      :initialTrigger="selectedHabitTrigger"
+      @commit="editHabit"
+      @close="closeEditDialog"
+    >
+      <template #header>Edit habit</template>
       <template #bodyText
         >Please provide a new title and a trigger for
         <strong>{{ selectedHabit }}</strong
         >. You will be able to undo the changes by editing the habit again.
       </template>
       <template #positive-action>
-        <div @keydown="Tab" role="button" tabindex="0" @click="editHabit">
-          Save
-        </div>
+        <div @keydown="Tab" role="button" tabindex="0">Save</div>
       </template>
       <template #negative-action>
-        <div @keydown="Tab" role="button" tabindex="0" @click="closeEditDialog">
-          Cancel
-        </div>
+        <div @keydown="Tab" role="button" tabindex="0">Cancel</div>
       </template>
     </EditOverlay>
 
@@ -110,7 +123,7 @@ watch(habits, (updatedHabits) => {
       :trackingSince="habit.trackingSince"
       positiveAction="Edit"
       negativeAction="Delete"
-      @edit="openEditDialog(habit.id, habit.habit)"
+      @edit="openEditDialog(habit.id, habit.habit, habit.trigger)"
       @delete="openDeleteDialog(habit.id, habit.habit)"
     />
   </main>
