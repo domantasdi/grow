@@ -1,6 +1,5 @@
+<!-- eslint-disable vue/require-default-prop -->
 <script setup>
-// import { ref } from 'vue';
-
 defineProps({
   monthAndDay: {
     type: Number,
@@ -9,12 +8,15 @@ defineProps({
   weekday: {
     type: String,
     default: 'Mon'
+  },
+  isoDate: {
+    type: String
   }
 });
 </script>
 
 <template>
-  <div class="wrapper">
+  <div @keydown="Tab" class="wrapper">
     <div class="day">
       <p class="day-word">{{ weekday }}</p>
       <p class="day-number">{{ monthAndDay }}</p>
@@ -36,6 +38,10 @@ div.wrapper {
 
 div.wrapper:hover {
   background-color: #999;
+}
+
+div.wrapper:active {
+  background-color: #777;
 }
 
 div.day {

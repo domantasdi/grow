@@ -11,6 +11,11 @@ const routes = [
     path: '/manage-habits',
     name: 'habits',
     component: () => import('../views/HabitManagementView.vue')
+  },
+  {
+    path: '/day/:date',
+    name: 'day',
+    component: () => import('../views/DayView.vue')
   }
 ];
 
