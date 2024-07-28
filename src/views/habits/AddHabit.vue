@@ -5,6 +5,9 @@ import getStoredHabits, { HABITS_KEY } from './habits';
 const habitTitle = ref('');
 const habitTrigger = ref('');
 const errorMessage = ref('');
+// const isChecked = ref(false);
+// const isStopped = ref(false);
+// const date = ref(null);
 
 const emit = defineEmits(['add-habit']);
 
@@ -33,7 +36,8 @@ const addHabit = () => {
     id: lastHabitId + 1,
     habit: habitTitle.value.trim(),
     trigger: habitTrigger.value.trim(),
-    trackingSince: new Date(Date.now()).toISOString().split('T')[0]
+    addedOn: new Date(Date.now()).toISOString().split('T')[0],
+    checkedDates: {}
   };
 
   emit('add-habit', newHabit);

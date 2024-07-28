@@ -120,11 +120,13 @@ watch(
       :key="habit.id"
       :habit="habit.habit"
       :trigger="habit.trigger"
-      :trackingSince="habit.trackingSince"
+      :addedOn="habit.addedOn"
+      :checkedDates="habit.checkedDates"
+      :currentDate="$route.params.date"
       positiveAction="Edit"
       negativeAction="Delete"
-      @edit="openEditDialog(habit.id, habit.habit, habit.trigger)"
-      @delete="openDeleteDialog(habit.id, habit.habit)"
+      @positiveAction="openEditDialog(habit.id, habit.habit, habit.trigger)"
+      @negativeAction="openDeleteDialog(habit.id, habit.habit)"
     />
   </main>
 </template>

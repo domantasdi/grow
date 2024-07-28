@@ -2,19 +2,21 @@
 // import { ref } from 'vue';
 
 import { RouterLink, RouterView } from 'vue-router';
+
+const isoDate = new Date().toISOString().slice(0, 10);
 </script>
 
 <template>
   <div class="wrapper">
     <nav>
-      <RouterLink :to="{ name: 'home' }">Home</RouterLink>
+      <RouterLink :to="{ name: 'day', params: { date: isoDate } }"
+        >Today</RouterLink
+      >
       <RouterLink :to="{ name: 'habits' }">Manage habits</RouterLink>
     </nav>
 
-    <!-- * This is where the routed view is rendered: -->
     <RouterView />
 
-    <!-- * And this is outside of the routed view, so it's always rendered: -->
     <div class="disclaimer">
       <p><strong>Remember:</strong></p>
       <p>
@@ -25,6 +27,7 @@ import { RouterLink, RouterView } from 'vue-router';
         And the task of building a good habit is like cultivating a delicate
         flower one day at a time.
       </p>
+      <p>– James Clear, Atomic Habits</p>
     </div>
   </div>
 </template>
@@ -59,6 +62,11 @@ nav {
 
 p:first-child {
   padding-bottom: 8px;
+}
+
+p:last-child {
+  padding-top: 8px;
+  font-style: italic;
 }
 
 @media (width <= 768px) {

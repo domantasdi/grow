@@ -4,7 +4,7 @@ import HabitCard from '../../components/habits/HabitCard.vue';
 import getStoredHabits from './habits';
 
 import DayOfWeek from '../../components/date-picker/DayOfWeek.vue';
-import DateNavigation from '../../components/date-picker/DateNavigation.vue';
+// import DateNavigation from '../../components/date-picker/DateNavigation.vue';
 import { getLastWeek } from '../../components/date-picker/dates';
 
 const lastWeek = getLastWeek().reverse();
@@ -14,7 +14,7 @@ const habits = ref(getStoredHabits());
 <template>
   <main>
     <div class="week-navigation">
-      <DateNavigation direction="–" />
+      <!-- <DateNavigation direction="–" /> -->
       <div v-for="selectedDay in lastWeek" :key="selectedDay.isoDate">
         <RouterLink
           :to="{ name: 'day', params: { date: selectedDay.isoDate } }"
@@ -25,17 +25,20 @@ const habits = ref(getStoredHabits());
           />
         </RouterLink>
       </div>
-      <DateNavigation direction="+" />
+      <!-- <DateNavigation direction="+" /> -->
     </div>
-
     <HabitCard
       v-for="habit in habits.slice().reverse()"
       :key="habit.id"
       :habit="habit.habit"
       :trigger="habit.trigger"
-      :trackingSince="habit.trackingSince"
-      positiveAction="Done"
-      negativeAction="Stop"
+      :addedOn="habit.addedOn"
+      :checkedDates="habit.checkedDates"
+      :currentDate="$route.params.date"
+      positiveAction="Complete"
+      negativeAction="Pause"
+      @positiveAction="completeHabit(habit, $route.params.date)"
+      @negativeAction="stopHabit(habit)"
     />
   </main>
 </template>
@@ -54,6 +57,7 @@ div.week-navigation {
   align-items: center;
   flex-direction: row;
   flex-grow: 1;
+  margin-bottom: 8px;
 }
 
 p {
