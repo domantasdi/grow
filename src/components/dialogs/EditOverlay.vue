@@ -199,9 +199,5 @@ p.error-message {
   div.backdrop {
     padding: 24px;
   }
-
-  div.icon {
-    display: none;
-  }
 }
 </style>

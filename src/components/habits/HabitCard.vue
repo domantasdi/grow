@@ -1,6 +1,10 @@
 <!-- eslint-disable vue/require-default-prop -->
 <script setup>
-defineProps({
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const props = defineProps({
   id: {
     type: Number,
     required: true
@@ -13,35 +17,46 @@ defineProps({
     type: String,
     required: true
   },
-  trackingSince: {
-    type: Date,
+  addedOn: {
+    type: String,
+    required: true
+  },
+  checkedDates: {
+    type: Object,
+    required: true
+  },
+  currentDate: {
+    type: String,
     required: true
   },
   positiveAction: {
-    type: Function
+    type: String
   },
   negativeAction: {
-    type: Function
+    type: String
   }
 });
 
-defineEmits(['edit', 'delete']);
+defineEmits(['positiveAction', 'negativeAction']);
+
+const isCompleted = computed(() => {
+  return props.checkedDates[props.currentDate] === true;
+});
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="icon">Icon</div>
-    <div class="details">
+  <div :class="['wrapper', { completed: isCompleted }]">
+    <div :class="['details', { completed: isCompleted }]">
       <p class="habit">I will {{ habit }}</p>
       <p class="trigger">Whenever I {{ trigger }}</p>
     </div>
-    <div class="buttons">
+    <div :class="['buttons', { completed: isCompleted }]">
       <div
         role="button"
         tabindex="0"
         @keydown="Tab"
-        @click="$emit('edit')"
-        class="positive-button"
+        @click="$emit('positiveAction', route.params.date)"
+        :class="['positive-button', { completed: isCompleted }]"
       >
         <p>{{ positiveAction }}</p>
       </div>
@@ -49,7 +64,7 @@ defineEmits(['edit', 'delete']);
         role="button"
         tabindex="0"
         @keydown="Tab"
-        @click="$emit('delete')"
+        @click="$emit('negativeAction')"
         class="negative-button"
       >
         <p>{{ negativeAction }}</p>
@@ -68,13 +83,9 @@ div.wrapper {
   font-weight: 600;
 }
 
-div.icon {
-  display: flex;
-  align-items: center;
-  min-width: 96px;
-  width: 96px;
-  justify-content: center;
-  border-right: 1px solid #c3c3c3;
+div.wrapper.completed {
+  outline: 1px solid white;
+  outline-offset: 2px;
 }
 
 div.details {
@@ -86,6 +97,12 @@ div.details {
   padding: 24px;
 }
 
+div.details.completed {
+  text-decoration: line-through;
+  text-decoration-color: #666;
+  opacity: 0.5;
+}
+
 div.buttons {
   display: flex;
   flex-direction: column;
@@ -94,6 +111,20 @@ div.buttons {
   min-width: 96px;
   width: 96px;
   border-left: 1px solid #c3c3c3;
+}
+
+div.buttons .positive-button.completed {
+  color: gray;
+}
+
+div.buttons .positive-button.completed:hover {
+  background-color: #f6f6f6;
+  cursor: not-allowed;
+}
+
+div.buttons .positive-button.completed:active {
+  background-color: #f6f6f6;
+  cursor: not-allowed;
 }
 
 div.buttons .positive-button,
@@ -116,6 +147,15 @@ div.buttons .positive-button p {
   color: #006e0c;
 }
 
+div.buttons .negative-button p {
+  color: #b30000;
+}
+
+div.buttons .positive-button.completed p {
+  color: #666;
+  cursor: not-allowed;
+}
+
 div.buttons .positive-button:hover {
   background-color: #e9f5ec;
   border-top-right-radius: 8px;
@@ -131,10 +171,6 @@ div.buttons .positive-button:active {
 div.buttons .negative-button {
   width: 100%;
   user-select: none;
-}
-
-div.buttons .negative-button p {
-  color: #b30000;
 }
 
 div.buttons .negative-button:hover {

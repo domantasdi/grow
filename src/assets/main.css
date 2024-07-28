@@ -19,6 +19,20 @@ a,
   }
 }
 
+@media (width >= 1024px) {
+  #app {
+    margin: 0 30%;
+    margin-top: 48px;
+  }
+}
+
+@media (width >= 1440px) {
+  #app {
+    margin: 0 35%;
+    margin-top: 48px;
+  }
+}
+
 @media (width <= 768px) {
   #app {
     margin: 0 5%;

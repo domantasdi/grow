@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HabitList from '../views/habits/HabitList.vue';
+// import HabitList from '../views/habits/HabitList.vue';
+
+const isoDate = new Date().toISOString().slice(0, 10);
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HabitList
+    redirect: () => {
+      return { name: 'day', params: { date: isoDate } };
+    }
   },
   {
     path: '/manage-habits',

@@ -117,9 +117,5 @@ div.buttons .negative-button:active {
   div.backdrop {
     padding: 16px;
   }
-
-  div.icon {
-    display: none;
-  }
 }
 </style>
