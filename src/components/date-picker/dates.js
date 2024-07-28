@@ -9,11 +9,16 @@ export const getLastWeek = () => {
     date.setDate(today.getDate() - i);
 
     const weekdays = date.toLocaleString('en-us', { weekday: 'short' });
-    const monthAndDays = date.toLocaleString('en-us', { month: 'short', day: 'numeric' });
+    const monthAndDays = date.toLocaleString('en-us', {
+      month: 'short',
+      day: 'numeric'
+    });
+    const isoDate = date.toISOString().slice(0, 10);
 
     return {
       weekday: weekdays,
-      monthAndDay: monthAndDays
+      monthAndDay: monthAndDays,
+      isoDate
     };
   });
 };
@@ -23,5 +28,8 @@ export const toWeekDay = (date) => {
 };
 
 export const getMonthAndDay = (date) => {
-  return new Date(date).toLocaleString('en-us', { month: 'short', day: 'numeric' });
+  return new Date(date).toLocaleString('en-us', {
+    month: 'short',
+    day: 'numeric'
+  });
 };

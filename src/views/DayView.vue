@@ -1,11 +1,10 @@
 <script setup>
 import { ref } from 'vue';
-import HabitCard from '../../components/habits/HabitCard.vue';
-import getStoredHabits from './habits';
-
-import DayOfWeek from '../../components/date-picker/DayOfWeek.vue';
-import DateNavigation from '../../components/date-picker/DateNavigation.vue';
-import { getLastWeek } from '../../components/date-picker/dates';
+import HabitCard from '../components/habits/HabitCard.vue';
+import DateNavigation from '../components/date-picker/DateNavigation.vue';
+import DayOfWeek from '../components/date-picker/DayOfWeek.vue';
+import getStoredHabits from './habits/habits';
+import { getLastWeek } from '../components/date-picker/dates';
 
 const lastWeek = getLastWeek().reverse();
 const habits = ref(getStoredHabits());
@@ -40,8 +39,7 @@ const habits = ref(getStoredHabits());
   </main>
 </template>
 
-<style scoped>
-/* stylelint-disable-next-line selector-type-case */
+<style>
 main {
   display: flex;
   flex-direction: column;
@@ -56,7 +54,11 @@ div.week-navigation {
   flex-grow: 1;
 }
 
-p {
-  color: white;
+@media (width >= 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
 }
 </style>
