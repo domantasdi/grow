@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/manage-habits',
     name: 'habits',
-    component: () => import('../views/HabitManagementView.vue')
+    component: () => import('../views/habits/HabitManagement.vue')
   },
   {
     path: '/day/:date',

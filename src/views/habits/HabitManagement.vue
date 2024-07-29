@@ -58,6 +58,20 @@ const deleteHabit = () => {
   }
 };
 
+const pauseHabit = (habit, date) => {
+  if (!habit.pausedPeriods) {
+    habit.pausedPeriods = [];
+  }
+  habit.pausedPeriods.push({ start: date, end: null });
+};
+
+const resumeHabit = (habit, date) => {
+  const lastPausedPeriod = habit.pausedPeriods[habit.pausedPerdiods.length - 1];
+  if (lastPausedPeriod && !lastPausedPeriod.end) {
+    lastPausedPeriod.end = date;
+  }
+};
+
 watch(
   habits,
   (updatedHabits) => {
@@ -69,74 +83,83 @@ watch(
 
 <template>
   <main>
-    <!-- {{ habits }} -->
-    <AddHabit @add-habit="handleAddHabit"></AddHabit>
-    <div v-if="habits.length === 0">
-      <p>No habits to display. Try adding one now!</p>
+    <div>
+      <AddHabit @add-habit="handleAddHabit"></AddHabit>
+      <div v-if="habits.length === 0">
+        <p>No habits to display. Try adding one now!</p>
+      </div>
     </div>
 
-    <DeleteOverlay
-      v-if="showDeleteDialog"
-      @commit="deleteHabit"
-      @close="closeDeleteDialog"
-    >
-      <template #header> Delete habit? </template>
-      <template #bodyText>
-        Are you sure you want to delete the habit
-        <strong>{{ selectedHabit }}</strong
-        >? This action cannot be undone.
-      </template>
-      <template #positive-action>
-        <div @keydown="Tab" role="button" tabindex="0">Cancel</div>
-      </template>
-      <template #negative-action>
-        <div @keydown="Tab" role="button" tabindex="0">Yes, delete</div>
-      </template>
-    </DeleteOverlay>
-
-    <EditOverlay
-      v-if="showEditDialog"
-      :initialTitle="selectedHabit"
-      :initialTrigger="selectedHabitTrigger"
-      @commit="editHabit"
-      @close="closeEditDialog"
-    >
-      <template #header>Edit habit</template>
-      <template #bodyText
-        >Please provide a new title and a trigger for
-        <strong>{{ selectedHabit }}</strong
-        >. You will be able to undo the changes by editing the habit again.
-      </template>
-      <template #positive-action>
-        <div @keydown="Tab" role="button" tabindex="0">Save</div>
-      </template>
-      <template #negative-action>
-        <div @keydown="Tab" role="button" tabindex="0">Cancel</div>
-      </template>
-    </EditOverlay>
-
-    <HabitCard
-      v-for="habit in habits.slice().reverse()"
-      :key="habit.id"
-      :habit="habit.habit"
-      :trigger="habit.trigger"
-      :addedOn="habit.addedOn"
-      :checkedDates="habit.checkedDates"
-      :currentDate="$route.params.date"
-      positiveAction="Edit"
-      negativeAction="Delete"
-      @positiveAction="openEditDialog(habit.id, habit.habit, habit.trigger)"
-      @negativeAction="openDeleteDialog(habit.id, habit.habit)"
-    />
+    <div class="habit-cards">
+      <HabitCard
+        v-for="habit in habits.slice().reverse()"
+        :id="habit.id"
+        :key="habit.id"
+        :habit="habit.habit"
+        :trigger="habit.trigger"
+        :addedOn="habit.addedOn"
+        :checkedDates="habit.checkedDates"
+        :currentDate="$route.params.date"
+        positiveAction="Edit"
+        negativeAction="Delete"
+        @positiveAction="openEditDialog(habit.id, habit.habit, habit.trigger)"
+        @negativeAction="openDeleteDialog(habit.id, habit.habit)"
+      />
+    </div>
   </main>
+
+  <DeleteOverlay
+    v-if="showDeleteDialog"
+    @commit="deleteHabit"
+    @close="closeDeleteDialog"
+  >
+    <template #header> Delete habit? </template>
+    <template #bodyText>
+      Are you sure you want to delete the habit
+      <strong>{{ selectedHabit }}</strong
+      >? This action cannot be undone.
+    </template>
+    <template #positive-action>
+      <div @keydown="Tab" role="button" tabindex="0">Cancel</div>
+    </template>
+    <template #negative-action>
+      <div @keydown="Tab" role="button" tabindex="0">Yes, delete</div>
+    </template>
+  </DeleteOverlay>
+
+  <EditOverlay
+    v-if="showEditDialog"
+    :initialTitle="selectedHabit"
+    :initialTrigger="selectedHabitTrigger"
+    @commit="editHabit"
+    @close="closeEditDialog"
+  >
+    <template #header>Edit habit</template>
+    <template #bodyText
+      >Please provide a new title and a trigger for
+      <strong>{{ selectedHabit }}</strong
+      >. You will be able to undo the changes by editing the habit again.
+    </template>
+    <template #positive-action>
+      <div @keydown="Tab" role="button" tabindex="0">Save</div>
+    </template>
+    <template #negative-action>
+      <div @keydown="Tab" role="button" tabindex="0">Cancel</div>
+    </template>
+  </EditOverlay>
 </template>
 
 <style scoped>
-/* stylelint-disable-next-line selector-type-case */
-main {
+div.habit-cards {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 div.week-navigation {
@@ -145,8 +168,6 @@ div.week-navigation {
   align-items: center;
   flex-direction: row;
   flex-grow: 1;
-
-  /* height: 48px; */
 }
 
 p {

@@ -1,11 +1,13 @@
 <!-- eslint-disable no-param-reassign -->
 <script setup>
 import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import HabitCard from '../components/habits/HabitCard.vue';
 import DayOfWeek from '../components/date-picker/DayOfWeek.vue';
 import { getLastWeek } from '../components/date-picker/dates';
 import getStoredHabits, { HABITS_KEY } from './habits/habits';
 
+const route = useRoute();
 const lastWeek = getLastWeek().reverse();
 const habits = ref(getStoredHabits());
 
@@ -46,10 +48,18 @@ const completeHabit = (habit, date) => {
   saveHabits();
 };
 
-const stopHabit = (habit) => {
-  habit.isStopped = true;
-  saveHabits();
+const isHabitPaused = (habit, date) => {
+  return habit.pausedPeriods.some(
+    (period) => period.start <= date && (!period.end || period.end >= date)
+  );
 };
+
+const filteredHabits = computed(() => {
+  const currentDate = route.params.date;
+  return habits.value.filter(
+    (habit) => !isHabitPaused(habit, currentDate) && !habit.isStopped
+  );
+});
 
 // const filteredHabits = computed(() => {
 //   return habits.value.filter((habit) => !habit.isStopped);
@@ -60,6 +70,9 @@ const stopHabit = (habit) => {
   <main>
     <h1>{{ $route.params.date }}</h1>
     <div class="week-navigation">
+      <div v-if="habits.length === 0">
+        <p>No habits to display. Try adding one now!</p>
+      </div>
       <div v-for="selectedDay in weekStatus" :key="selectedDay.isoDate">
         <RouterLink
           :to="{ name: 'day', params: { date: selectedDay.isoDate } }"
@@ -77,33 +90,42 @@ const stopHabit = (habit) => {
       </div>
     </div>
 
-    <HabitCard
-      v-for="habit in habits.slice().reverse()"
-      :id="habit.id"
-      :key="habit.id"
-      :habit="habit.habit"
-      :trigger="habit.trigger"
-      :addedOn="habit.addedOn"
-      :checkedDates="habit.checkedDates"
-      :currentDate="$route.params.date"
-      positiveAction="Complete"
-      negativeAction="Pause"
-      @positiveAction="completeHabit(habit, $route.params.date)"
-      @negativeAction="stopHabit(habit)"
-    />
+    <div class="habit-cards">
+      <HabitCard
+        v-for="habit in filteredHabits.slice().reverse()"
+        :id="habit.id"
+        :key="habit.id"
+        :habit="habit.habit"
+        :trigger="habit.trigger"
+        :addedOn="habit.addedOn"
+        :checkedDates="habit.checkedDates"
+        :currentDate="$route.params.date"
+        positiveAction="Complete"
+        negativeAction="Pause"
+        @positiveAction="completeHabit(habit, $route.params.date)"
+        @negativeAction="stopHabit(habit)"
+      />
+    </div>
   </main>
 </template>
 
 <style>
-main {
+div.habit-cards {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 h1 {
   color: #fff;
   font-size: 18px;
+  padding: 0;
 }
 
 div.week-navigation {
@@ -112,7 +134,6 @@ div.week-navigation {
   align-items: center;
   flex-direction: row;
   flex-grow: 1;
-  margin-bottom: 8px;
 }
 
 @media (width >= 1024px) {
