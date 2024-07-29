@@ -58,20 +58,6 @@ const deleteHabit = () => {
   }
 };
 
-const pauseHabit = (habit, date) => {
-  if (!habit.pausedPeriods) {
-    habit.pausedPeriods = [];
-  }
-  habit.pausedPeriods.push({ start: date, end: null });
-};
-
-const resumeHabit = (habit, date) => {
-  const lastPausedPeriod = habit.pausedPeriods[habit.pausedPerdiods.length - 1];
-  if (lastPausedPeriod && !lastPausedPeriod.end) {
-    lastPausedPeriod.end = date;
-  }
-};
-
 watch(
   habits,
   (updatedHabits) => {
@@ -83,10 +69,10 @@ watch(
 
 <template>
   <main>
-    <div>
+    <div class="addition-and-information">
       <AddHabit @add-habit="handleAddHabit"></AddHabit>
       <div v-if="habits.length === 0">
-        <p>No habits to display. Try adding one now!</p>
+        <p>No habits to display yet. Try adding one above!</p>
       </div>
     </div>
 
@@ -150,6 +136,12 @@ watch(
 </template>
 
 <style scoped>
+div.addition-and-information {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 div.habit-cards {
   display: flex;
   flex-direction: column;

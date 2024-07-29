@@ -5,17 +5,12 @@ import getStoredHabits, { HABITS_KEY } from './habits';
 const habitTitle = ref('');
 const habitTrigger = ref('');
 const errorMessage = ref('');
-// const isChecked = ref(false);
-// const isStopped = ref(false);
-// const date = ref(null);
 
 const emit = defineEmits(['add-habit']);
 
 const addHabit = () => {
-  // Emptying the error message
   errorMessage.value = '';
 
-  // Error message for empty inputs
   if (!habitTitle.value.trim() || !habitTrigger.value.trim()) {
     errorMessage.value = 'Both fields are required.';
     return;
