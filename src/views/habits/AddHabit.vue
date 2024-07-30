@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import getStoredHabits, { HABITS_KEY } from './habits';
+import { useHabitsStore } from '../../store/useHabitsStore';
 
 const habitTitle = ref('');
 const habitTrigger = ref('');
@@ -16,14 +16,14 @@ const addHabit = () => {
     return;
   }
 
-  const habits = getStoredHabits();
+  const habits = useHabitsStore();
 
   // Checking which ID to use
   let lastHabitId;
   if (habits.length === 0) {
     lastHabitId = 0;
   } else {
-    lastHabitId = habits[habits.length - 1].id;
+    lastHabitId = habits.value[habits.value.length - 1].id;
   }
 
   // An object template for a new habit
@@ -36,10 +36,6 @@ const addHabit = () => {
   };
 
   emit('add-habit', newHabit);
-
-  // Pushing the newly created habit to the local storage
-  habits.push(newHabit);
-  localStorage.setItem(HABITS_KEY, JSON.stringify(habits));
 
   // Emptying the input fields
   habitTitle.value = '';

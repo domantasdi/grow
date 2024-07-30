@@ -5,12 +5,12 @@ import { useRoute } from 'vue-router';
 import HabitCard from '../components/habits/HabitCard.vue';
 import DayOfWeek from '../components/date-picker/DayOfWeek.vue';
 import { getLastWeek } from '../components/date-picker/dates';
-import getStoredHabits, { HABITS_KEY } from './habits/habits';
-import StopOverlay from '../components/dialogs/StopOverlay.vue';
+import StopDialog from '../components/dialogs/StopDialog.vue';
+import { useHabitsStore } from '../store/useHabitsStore';
 
 const route = useRoute();
 const lastWeek = getLastWeek().reverse();
-const habits = ref(getStoredHabits());
+const habits = useHabitsStore();
 const showStopDialog = ref(false);
 const selectedHabit = ref('');
 
@@ -46,18 +46,11 @@ const closeStopDialog = () => {
   showStopDialog.value = false;
 };
 
-// Habit-related functions
-
-const saveHabits = () => {
-  localStorage.setItem(HABITS_KEY, JSON.stringify(habits.value));
-};
-
 const completeHabit = (habit, date) => {
   if (!habit.checkedDates) {
     habit.checkedDates = {};
   }
   habit.checkedDates[date] = true;
-  saveHabits();
 };
 
 const stopHabit = (habit) => {
@@ -71,8 +64,6 @@ const stopHabit = (habit) => {
     }
     habit.checkedDates[day.isoDate] = true;
   });
-
-  saveHabits();
   closeStopDialog();
 };
 
@@ -138,7 +129,7 @@ const stoppedHabits = computed(() => {
     <!-- {{ stoppedHabits }} -->
   </main>
 
-  <StopOverlay
+  <StopDialog
     v-if="showStopDialog"
     @commit="stopHabit(selectedHabit)"
     @close="closeStopDialog"
@@ -156,7 +147,7 @@ const stoppedHabits = computed(() => {
     <template #negative-action>
       <div @keydown="Tab" role="button" tabindex="0">Yes, stop</div>
     </template>
-  </StopOverlay>
+  </StopDialog>
 </template>
 
 <style>

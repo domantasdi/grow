@@ -1,12 +1,12 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import HabitCard from '../../components/habits/HabitCard.vue';
 import AddHabit from './AddHabit.vue';
-import getStoredHabits, { HABITS_KEY } from './habits';
-import DeleteOverlay from '../../components/dialogs/DeleteOverlay.vue';
-import EditOverlay from '../../components/dialogs/EditOverlay.vue';
+import { useHabitsStore } from '../../store/useHabitsStore';
+import DeleteDialog from '../../components/dialogs/DeleteDialog.vue';
+import EditDialog from '../../components/dialogs/EditDialog.vue';
 
-const habits = ref(getStoredHabits());
+const habits = useHabitsStore();
 const showDeleteDialog = ref(false);
 const showEditDialog = ref(false);
 const selectedHabitId = ref(null);
@@ -57,14 +57,6 @@ const deleteHabit = () => {
     closeDeleteDialog();
   }
 };
-
-watch(
-  habits,
-  (updatedHabits) => {
-    localStorage.setItem(HABITS_KEY, JSON.stringify(updatedHabits));
-  },
-  { deep: true }
-);
 </script>
 
 <template>
@@ -94,7 +86,7 @@ watch(
     </div>
   </main>
 
-  <DeleteOverlay
+  <DeleteDialog
     v-if="showDeleteDialog"
     @commit="deleteHabit"
     @close="closeDeleteDialog"
@@ -111,9 +103,9 @@ watch(
     <template #negative-action>
       <div @keydown="Tab" role="button" tabindex="0">Yes, delete</div>
     </template>
-  </DeleteOverlay>
+  </DeleteDialog>
 
-  <EditOverlay
+  <EditDialog
     v-if="showEditDialog"
     :initialTitle="selectedHabit"
     :initialTrigger="selectedHabitTrigger"
@@ -132,7 +124,7 @@ watch(
     <template #negative-action>
       <div @keydown="Tab" role="button" tabindex="0">Cancel</div>
     </template>
-  </EditOverlay>
+  </EditDialog>
 </template>
 
 <style scoped>

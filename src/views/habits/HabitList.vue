@@ -1,14 +1,11 @@
 <script setup>
-import { ref } from 'vue';
 import HabitCard from '../../components/habits/HabitCard.vue';
-import getStoredHabits from './habits';
-
+import { useHabitsStore } from '../../store/useHabitsStore';
 import DayOfWeek from '../../components/date-picker/DayOfWeek.vue';
-// import DateNavigation from '../../components/date-picker/DateNavigation.vue';
 import { getLastWeek } from '../../components/date-picker/dates';
 
 const lastWeek = getLastWeek().reverse();
-const habits = ref(getStoredHabits());
+const habits = useHabitsStore();
 </script>
 
 <template>

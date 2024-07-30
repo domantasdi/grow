@@ -13,8 +13,16 @@ function getStoredHabits() {
 
 const habits = ref(getStoredHabits());
 
-watch(habits, (updatedHabits) => {
-  localStorage.setItem(HABITS_KEY, JSON.stringify(updatedHabits));
-});
+watch(
+  habits,
+  (updatedHabits) => {
+    localStorage.setItem(HABITS_KEY, JSON.stringify(updatedHabits));
+  },
+  { deep: true }
+);
 
 export default getStoredHabits;
+
+export function useHabitsStore() {
+  return habits;
+}
