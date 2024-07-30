@@ -14,6 +14,20 @@ const habits = useHabitsStore();
 const showStopDialog = ref(false);
 const selectedHabit = ref('');
 
+const activeHabits = computed(() => {
+  const currentDate = route.params.date;
+  return habits.value.filter(
+    (habit) => !habit.stoppedOn || habit.stoppedOn > currentDate
+  );
+});
+
+const stoppedHabits = computed(() => {
+  const currentDate = route.params.date;
+  return habits.value.filter(
+    (habit) => habit.stoppedOn && habit.stoppedOn <= currentDate
+  );
+});
+
 const weekStatus = computed(() => {
   return lastWeek.map((day) => {
     let completedCount = 0;
@@ -56,33 +70,18 @@ const stopHabit = (habit) => {
   habit.stoppedOn = stopDate;
 
   // This auto-completes habits that are stopped. Not sure if this is correct
-  const futureDates = lastWeek.filter((day) => day.isoDate >= stopDate);
-  futureDates.forEach((day) => {
-    if (!habit.checkedDates) {
-      habit.checkedDates = {};
-    }
-    habit.checkedDates[day.isoDate] = true;
-  });
+  // const futureDates = lastWeek.filter((day) => day.isoDate > stopDate);
+  // futureDates.forEach((day) => {
+  //   if (!habit.checkedDates) {
+  //     habit.checkedDates = {};
+  //   }
+  //   habit.checkedDates[day.isoDate] = true;
+  // });
   closeStopDialog();
 };
-
-const activeHabits = computed(() => {
-  const currentDate = route.params.date;
-  return habits.value.filter(
-    (habit) => !habit.stoppedOn || habit.stoppedOn > currentDate
-  );
-});
-
-const stoppedHabits = computed(() => {
-  const currentDate = route.params.date;
-  return habits.value.filter(
-    (habit) => habit.stoppedOn && habit.stoppedOn <= currentDate
-  );
-});
 </script>
 
 <template>
-  <div :key="habit.id" v-for="habit in habits">{{ habit }}</div>
   <main>
     <h1>List of habits for {{ $route.params.date }}</h1>
     <div class="week-navigation">
@@ -125,7 +124,6 @@ const stoppedHabits = computed(() => {
     <div v-if="stoppedHabits.length !== 0">
       <p>Note: some habits are stopped and hidden from tracking.</p>
     </div>
-    <!-- {{ stoppedHabits }} -->
   </main>
 
   <StopDialog
