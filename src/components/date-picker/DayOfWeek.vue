@@ -14,6 +14,10 @@ const props = defineProps({
     type: String,
     default: '2024-07-28'
   },
+  currentDate: {
+    type: String,
+    required: true
+  },
   noHabitsCompleted: {
     type: Boolean,
     required: true
@@ -24,10 +28,6 @@ const props = defineProps({
   },
   allCompleted: {
     type: Boolean,
-    required: true
-  },
-  currentDate: {
-    type: String,
     required: true
   }
 });

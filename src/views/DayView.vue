@@ -20,11 +20,9 @@ const weekStatus = computed(() => {
     let habitCount = 0;
 
     habits.value.forEach((habit) => {
-      if (!habit.isStopped) {
-        habitCount += 1;
-        if (habit.checkedDates && habit.checkedDates[day.isoDate]) {
-          completedCount += 1;
-        }
+      habitCount += 1;
+      if (habit.checkedDates && habit.checkedDates[day.isoDate]) {
+        completedCount += 1;
       }
     });
 
@@ -57,6 +55,7 @@ const stopHabit = (habit) => {
   const stopDate = route.params.date;
   habit.stoppedOn = stopDate;
 
+  // This auto-completes habits that are stopped. Not sure if this is correct
   const futureDates = lastWeek.filter((day) => day.isoDate >= stopDate);
   futureDates.forEach((day) => {
     if (!habit.checkedDates) {
@@ -83,6 +82,7 @@ const stoppedHabits = computed(() => {
 </script>
 
 <template>
+  <div :key="habit.id" v-for="habit in habits">{{ habit }}</div>
   <main>
     <h1>List of habits for {{ $route.params.date }}</h1>
     <div class="week-navigation">
@@ -91,11 +91,10 @@ const stoppedHabits = computed(() => {
           :to="{ name: 'day', params: { date: selectedDay.isoDate } }"
         >
           <DayOfWeek
-            :weekday="selectedDay.weekday"
             :monthAndDay="selectedDay.monthAndDay"
+            :weekday="selectedDay.weekday"
             :isoDate="selectedDay.isoDate"
             :currentDate="$route.params.date"
-            :habits:="habits.value"
             :noHabitsCompleted="selectedDay.noHabitsCompleted"
             :atLeastOneCompleted="selectedDay.atLeastOneCompleted"
             :allCompleted="selectedDay.allCompleted"
