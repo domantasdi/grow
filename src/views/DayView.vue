@@ -83,14 +83,17 @@ const activeHabits = computed(() => {
   );
 });
 
-// const filteredHabits = computed(() => {
-//   return habits.value.filter((habit) => !habit.isStopped);
-// });
+const stoppedHabits = computed(() => {
+  const currentDate = route.params.date;
+  return habits.value.filter(
+    (habit) => habit.stoppedOn && habit.stoppedOn <= currentDate
+  );
+});
 </script>
 
 <template>
   <main>
-    <h1>Active habits for {{ $route.params.date }}</h1>
+    <h1>List of habits for {{ $route.params.date }}</h1>
     <div class="week-navigation">
       <div v-for="selectedDay in weekStatus" :key="selectedDay.isoDate">
         <RouterLink
@@ -109,6 +112,7 @@ const activeHabits = computed(() => {
         </RouterLink>
       </div>
     </div>
+
     <div class="information" v-if="habits.length === 0">
       <p>No habits added yet! Try adding one now in Habit management!</p>
     </div>
@@ -128,6 +132,10 @@ const activeHabits = computed(() => {
         @negativeAction="openStopDialog(habit)"
       />
     </div>
+    <div v-if="stoppedHabits.length !== 0">
+      <p>Note: some habits are stopped and hidden from tracking.</p>
+    </div>
+    <!-- {{ stoppedHabits }} -->
   </main>
 
   <StopOverlay
