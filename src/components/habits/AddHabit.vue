@@ -20,7 +20,7 @@ const addHabit = () => {
 
   // Checking which ID to use
   let lastHabitId;
-  if (habits.length === 0) {
+  if (habits.value.length === 0) {
     lastHabitId = 0;
   } else {
     lastHabitId = habits.value[habits.value.length - 1].id;
