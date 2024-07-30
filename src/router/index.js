@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-// import HabitList from '../views/habits/HabitList.vue';
 
 const isoDate = new Date().toISOString().slice(0, 10);
 
@@ -13,7 +12,7 @@ const routes = [
   {
     path: '/manage-habits',
     name: 'habits',
-    component: () => import('../views/habits/HabitManagement.vue')
+    component: () => import('../views/HabitManagement.vue')
   },
   {
     path: '/day/:date',

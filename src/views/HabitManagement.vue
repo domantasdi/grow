@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue';
-import HabitCard from '../../components/habits/HabitCard.vue';
-import AddHabit from './AddHabit.vue';
-import { useHabitsStore } from '../../store/useHabitsStore';
-import DeleteDialog from '../../components/dialogs/DeleteDialog.vue';
-import EditDialog from '../../components/dialogs/EditDialog.vue';
+import HabitCard from '../components/habits/HabitCard.vue';
+import AddHabit from '../components/habits/AddHabit.vue';
+import { useHabitsStore } from '../store/useHabitsStore';
+import DeleteDialog from '../components/dialogs/DeleteDialog.vue';
+import EditDialog from '../components/dialogs/EditDialog.vue';
 
 const habits = useHabitsStore();
 const showDeleteDialog = ref(false);
