@@ -1,34 +1,29 @@
 <script setup>
 import { ref } from 'vue';
-import getStoredHabits, { HABITS_KEY } from './habits';
+import { useHabitsStore } from '../../store/useHabitsStore';
 
 const habitTitle = ref('');
 const habitTrigger = ref('');
 const errorMessage = ref('');
-// const isChecked = ref(false);
-// const isStopped = ref(false);
-// const date = ref(null);
 
 const emit = defineEmits(['add-habit']);
 
 const addHabit = () => {
-  // Emptying the error message
   errorMessage.value = '';
 
-  // Error message for empty inputs
   if (!habitTitle.value.trim() || !habitTrigger.value.trim()) {
     errorMessage.value = 'Both fields are required.';
     return;
   }
 
-  const habits = getStoredHabits();
+  const habits = useHabitsStore();
 
   // Checking which ID to use
   let lastHabitId;
-  if (habits.length === 0) {
+  if (habits.value.length === 0) {
     lastHabitId = 0;
   } else {
-    lastHabitId = habits[habits.length - 1].id;
+    lastHabitId = habits.value[habits.value.length - 1].id;
   }
 
   // An object template for a new habit
@@ -41,10 +36,6 @@ const addHabit = () => {
   };
 
   emit('add-habit', newHabit);
-
-  // Pushing the newly created habit to the local storage
-  habits.push(newHabit);
-  localStorage.setItem(HABITS_KEY, JSON.stringify(habits));
 
   // Emptying the input fields
   habitTitle.value = '';

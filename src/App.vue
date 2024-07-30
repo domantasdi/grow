@@ -9,10 +9,12 @@ const isoDate = new Date().toISOString().slice(0, 10);
 <template>
   <div class="wrapper">
     <nav>
-      <RouterLink :to="{ name: 'day', params: { date: isoDate } }"
-        >Today</RouterLink
-      >
-      <RouterLink :to="{ name: 'habits' }">Manage habits</RouterLink>
+      <div>
+        <RouterLink :to="{ name: 'day', params: { date: isoDate } }"
+          >Today</RouterLink
+        >
+        <RouterLink :to="{ name: 'habits' }">Manage habits</RouterLink>
+      </div>
     </nav>
 
     <RouterView />
@@ -33,8 +35,14 @@ const isoDate = new Date().toISOString().slice(0, 10);
 </template>
 
 <style scoped>
+h1 {
+  color: #919191;
+  font-size: 16px;
+  font-weight: 500;
+}
+
 .disclaimer {
-  margin-top: 24px;
+  /* margin-top: 24px; */
   font-size: 0.75rem;
   line-height: 150%;
   color: #7b7e79;
@@ -43,7 +51,7 @@ const isoDate = new Date().toISOString().slice(0, 10);
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 48px;
 }
 
 header {
@@ -53,11 +61,17 @@ header {
 
 nav {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   font-size: 16px;
   text-align: center;
+}
+
+nav div:first-child {
+  display: flex;
+  gap: 16px;
 }
 
 p:first-child {

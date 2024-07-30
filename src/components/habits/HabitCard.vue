@@ -27,7 +27,8 @@ const props = defineProps({
   },
   currentDate: {
     type: String,
-    required: true
+    required: true,
+    default: 'Undefined'
   },
   positiveAction: {
     type: String
@@ -84,6 +85,7 @@ div.wrapper {
 }
 
 div.wrapper.completed {
+  background-color: #f8f8f8;
   outline: 1px solid white;
   outline-offset: 2px;
 }

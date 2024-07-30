@@ -14,6 +14,10 @@ const props = defineProps({
     type: String,
     default: '2024-07-28'
   },
+  currentDate: {
+    type: String,
+    required: true
+  },
   noHabitsCompleted: {
     type: Boolean,
     required: true
@@ -24,10 +28,6 @@ const props = defineProps({
   },
   allCompleted: {
     type: Boolean,
-    required: true
-  },
-  currentDate: {
-    type: String,
     required: true
   }
 });
@@ -52,7 +52,8 @@ const noCompleted = computed(() => {
       {
         completed: isCompleted,
         some: someCompleted,
-        none: noCompleted
+        none: noCompleted,
+        active: $route.params.date === isoDate
       }
     ]"
   >
@@ -64,25 +65,18 @@ const noCompleted = computed(() => {
 </template>
 
 <style scoped>
-/* div.wrapper.none.on {
-  outline: 1px solid white;
-  outline-offset: 2px;
-}
-
-div.wrapper.some.on {
-  outline: 1px solid #ffbc42;
-  outline-offset: 2px;
-}
-
-div.wrapper.completed.on {
-  border: 1px solid #218838;
-  outline-offset: 2px;
-} */
-
-/* Styles for day with no habits completed */
-
 div.wrapper.none {
   border: 1px solid #f1f1f1;
+}
+
+div.wrapper.none.active {
+  outline: 1px solid #f1f1f1;
+  outline-offset: 2px;
+}
+
+div.wrapper.none.active:hover {
+  outline: 2px solid #f1f1f1;
+  outline-offset: 2px;
 }
 
 div.wrapper.none:hover {
@@ -96,10 +90,18 @@ div.wrapper.none:active {
   background-color: #252525;
 }
 
-/* Styles for some days completed */
-
 div.wrapper.some {
   border: 1px solid #ffbc42;
+}
+
+div.wrapper.some.active {
+  outline: 1px solid #ffbc42;
+  outline-offset: 2px;
+}
+
+div.wrapper.some.active:hover {
+  outline: 2px solid #ffbc42;
+  outline-offset: 2px;
 }
 
 div.wrapper.some:hover {
@@ -113,10 +115,18 @@ div.wrapper.some:active {
   background-color: #3c240e;
 }
 
-/* Styles for completed days */
-
 div.wrapper.completed {
   border: 1px solid #218838;
+}
+
+div.wrapper.completed.active {
+  outline: 1px solid #218838;
+  outline-offset: 2px;
+}
+
+div.wrapper.completed.active:hover {
+  outline: 2px solid #218838;
+  outline-offset: 2px;
 }
 
 div.wrapper.completed:hover {
