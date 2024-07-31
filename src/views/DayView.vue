@@ -28,23 +28,33 @@ const stoppedHabits = computed(() => {
   );
 });
 
+const calculateDayStatus = (isoDate) => {
+  const activeHabitsForDate = habits.value.filter((habit) => {
+    return !habit.stoppedOn || habit.stoppedOn > isoDate;
+  });
+
+  const completedCount = activeHabitsForDate.filter(
+    (habit) => habit.checkedDates[isoDate]
+  ).length;
+  const habitCount = activeHabitsForDate.length;
+
+  if (habitCount === 0) {
+    return 'none';
+  }
+  if (completedCount === habitCount) {
+    return 'all';
+  }
+  if (completedCount > 0) {
+    return 'some';
+  }
+  return 'none';
+};
+
 const weekStatus = computed(() => {
   return lastWeek.map((day) => {
-    let completedCount = 0;
-    let habitCount = 0;
-
-    habits.value.forEach((habit) => {
-      habitCount += 1;
-      if (habit.checkedDates && habit.checkedDates[day.isoDate]) {
-        completedCount += 1;
-      }
-    });
-
     return {
       ...day,
-      noHabitsCompleted: habitCount > 0 && completedCount === 0,
-      atLeastOneCompleted: completedCount > 0 && completedCount < habitCount,
-      allCompleted: habitCount > 0 && completedCount === habitCount
+      status: calculateDayStatus(day.isoDate)
     };
   });
 });
@@ -68,15 +78,6 @@ const completeHabit = (habit, date) => {
 const stopHabit = (habit) => {
   const stopDate = route.params.date;
   habit.stoppedOn = stopDate;
-
-  // This auto-completes habits that are stopped. Not sure if this is correct
-  // const futureDates = lastWeek.filter((day) => day.isoDate > stopDate);
-  // futureDates.forEach((day) => {
-  //   if (!habit.checkedDates) {
-  //     habit.checkedDates = {};
-  //   }
-  //   habit.checkedDates[day.isoDate] = true;
-  // });
   closeStopDialog();
 };
 </script>
@@ -94,9 +95,7 @@ const stopHabit = (habit) => {
             :weekday="selectedDay.weekday"
             :isoDate="selectedDay.isoDate"
             :currentDate="$route.params.date"
-            :noHabitsCompleted="selectedDay.noHabitsCompleted"
-            :atLeastOneCompleted="selectedDay.atLeastOneCompleted"
-            :allCompleted="selectedDay.allCompleted"
+            :status="selectedDay.status"
           />
         </RouterLink>
       </div>
