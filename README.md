@@ -56,8 +56,6 @@ You are free to stop a habit from tracking by clicking the `Stop...` button on t
 
 ## Setting up the application
 
-## Setting up the environment
-
 ### Install the required dependencies
 
 ```sh
