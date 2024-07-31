@@ -42,33 +42,31 @@ npm run preview
 
 ### Adding a new habit
 
-You can add a new habit by navigating to the `Manage habits` section found in the navigation pane. Once you're there, enter the habit title, the trigger, and, finally, clicking the `Add` button.
+You can add a new habit by navigating to the `Manage habits` section found in the navigation pane. Once you're there, enter the habit title, the trigger, and, finally, click the `Add` button.
 In life, habits are usually triggered by something. For example, making your bed is triggered by getting out of the bed (or other triggers, in your case).
 
 ### Editing a habit
 
-You can edit an already existing habit by clicking the `Edit` button found in the `Habit management` section. This will open a modal window, asking you to enter a new title and a new trigger. If you delete the values altogether, you will have them reminded to you in the form of a placeholder. Click `Save` when you're happy with your edits or `Cancel`, if you wish to back out.
+You can edit an already existing habit by clicking the `Edit` button found in the `Habit management` section. This will open a modal window, asking you to enter a new title and a new trigger. If you delete the values altogether, you will have them reminded to you in the form of a placeholder. Click `Save` when you're happy with your edits to save them or `Cancel`, if you wish to back out and discard your edits.
 
-### Deleting a habit
+### Deleting habits
 
 You can delete a habit by clicking the `Delete...` button found in the `Habit management` section. This will open a dialog, asking you to confirm the action. In addition, you are informed that this action cannot be undone.
-
-### Deleting all habits
 
 If there is more than one habit added to the tracker, you can also bulk delete habits by clicking the `Delete all habits...` button found below the list of habits.
 
 ### Completing a habit
 
-Clicking `Today` in the navigation pane will automatically redirect you to the current day and display all the active habits. If you wish to complete one, click the `Complete` button on the habit. The completion will be visually denoted in two areas:
+Clicking `Today` in the navigation pane will automatically redirect you to the current day and display all the active habits. If you wish to complete one, click the `Complete` button on the habit. You can tell a habit has been completed by looking at these two areas:
 
 1. The habit card itself;
 2. The day selector.
 
 The day selector's style is outlined by the following conditions:
 
-- If you complete all of the habits for the day, the selector will be 🟢 green;
-- If you complete some habits, the selector will be 🟡 yellow;
-- If you didn't mark any habits as complete, the selector will be ⚪️ white.
+- If you complete all of the habits for the day, the selector will have a 🟢 green outline;
+- If you complete some habits, the selector will have a 🟡 yellow outline;
+- If you didn't mark any habits as complete, the selector will have a ⚪️ white outline.
 
 ### Stopping a habit
 
