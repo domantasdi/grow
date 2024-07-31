@@ -45,6 +45,14 @@ const props = defineProps({
 </template>
 
 <style scoped>
+div.wrapper.none,
+div.wrapper.some,
+div.wrapper.completed {
+  transition:
+    outline 0.2s ease-in,
+    outline-offset 0.2s ease-in;
+}
+
 div.wrapper.none {
   border: 1px solid #f1f1f1;
 }

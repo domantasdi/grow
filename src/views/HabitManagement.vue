@@ -8,6 +8,7 @@ import EditDialog from '../components/dialogs/EditDialog.vue';
 
 const habits = useHabitsStore();
 const showDeleteDialog = ref(false);
+const showMassDeleteDialog = ref(false);
 const showEditDialog = ref(false);
 const selectedHabitId = ref(null);
 const selectedHabit = ref('');
@@ -22,6 +23,14 @@ const openDeleteDialog = (habitId, habit) => {
   showDeleteDialog.value = true;
   selectedHabitId.value = habitId;
   selectedHabit.value = habit;
+};
+
+const openMassDeleteDialog = () => {
+  showMassDeleteDialog.value = true;
+};
+
+const closeMassDeleteDialog = () => {
+  showMassDeleteDialog.value = false;
 };
 
 const openEditDialog = (habitId, habitTitle, habitTrigger) => {
@@ -57,6 +66,11 @@ const deleteHabit = () => {
     closeDeleteDialog();
   }
 };
+
+const deleteHabits = () => {
+  habits.value = [];
+  closeMassDeleteDialog();
+};
 </script>
 
 <template>
@@ -79,12 +93,35 @@ const deleteHabit = () => {
         :checkedDates="habit.checkedDates"
         :currentDate="$route.params.date"
         positiveAction="Edit"
-        negativeAction="Delete"
+        negativeAction="Delete..."
         @positiveAction="openEditDialog(habit.id, habit.habit, habit.trigger)"
         @negativeAction="openDeleteDialog(habit.id, habit.habit)"
       />
     </div>
+    <div v-if="habits.length > 1" class="delete-all-habits">
+      <button id="mass-delete" type="button" @click="openMassDeleteDialog()">
+        Delete all habits...
+      </button>
+    </div>
   </main>
+
+  <DeleteDialog
+    v-if="showMassDeleteDialog"
+    @commit="deleteHabits"
+    @close="closeMassDeleteDialog"
+  >
+    <template #header> Delete all habits? </template>
+    <template #bodyText>
+      Are you sure you want to delete
+      <strong>{{ habits.length }}</strong> habits? This action cannot be undone.
+    </template>
+    <template #positive-action>
+      <div @keydown="Tab" role="button" tabindex="0">Cancel</div>
+    </template>
+    <template #negative-action>
+      <div @keydown="Tab" role="button" tabindex="0">Yes, delete</div>
+    </template>
+  </DeleteDialog>
 
   <DeleteDialog
     v-if="showDeleteDialog"
@@ -128,6 +165,29 @@ const deleteHabit = () => {
 </template>
 
 <style scoped>
+button#mass-delete {
+  width: 100%;
+  height: 48px;
+  min-height: 48px;
+  color: #fff;
+  font-weight: 400;
+  border-radius: 8px;
+  background-color: #b30000;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+}
+
+button#mass-delete:hover {
+  background-color: #c70000;
+  cursor: pointer;
+}
+
+button#mass-delete:active {
+  background-color: #9f0000;
+  cursor: pointer;
+}
+
 div.addition-and-information {
   display: flex;
   flex-direction: column;
