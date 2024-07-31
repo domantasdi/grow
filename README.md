@@ -18,27 +18,9 @@ This section outlines the ups and downs I've encountered while doing this task.
   - I still find Vue confusing and it was difficult to navigate the project while trying to remember props, template slots, computed values, etc;
   - I had to follow tutorials, get help from GPT in order to proceed in some areas.
 
-# How to setup and use the tracker
+# How to use Grow
 
-## Setting up the environment
-
-### Install the required dependencies
-
-```sh
-npm install
-```
-
-### Compile the project
-
-```sh
-npm run build
-```
-
-```sh
-npm run preview
-```
-
-## Using Grow
+## User interface
 
 ### Adding a new habit
 
@@ -71,6 +53,26 @@ The day selector's style is outlined by the following conditions:
 ### Stopping a habit
 
 You are free to stop a habit from tracking by clicking the `Stop...` button on the habit itself. This will open a confirmation dialog to make sure you don't stop a habit by accident. This will prevent the habit from appearing from the day forward.
+
+## Setting up the application
+
+## Setting up the environment
+
+### Install the required dependencies
+
+```sh
+npm install
+```
+
+### Compile the project
+
+```sh
+npm run build
+```
+
+```sh
+npm run preview
+```
 
 # A sample array of habit objects
 
