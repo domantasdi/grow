@@ -84,7 +84,7 @@ const stopHabit = (habit) => {
 
 <template>
   <main>
-    <h1>List of habits for {{ $route.params.date }}</h1>
+    <h1>{{ $route.params.date }}</h1>
     <div class="week-navigation">
       <div v-for="selectedDay in weekStatus" :key="selectedDay.isoDate">
         <RouterLink
@@ -102,7 +102,10 @@ const stopHabit = (habit) => {
     </div>
 
     <div class="information" v-if="habits.length === 0">
-      <p>No habits added yet! Try adding one now in Habit management!</p>
+      <p>
+        No habits added yet! Try adding one now in
+        <RouterLink :to="{ name: 'habits' }">Habit management!</RouterLink>
+      </p>
     </div>
     <div class="habit-cards">
       <HabitCard
@@ -115,7 +118,7 @@ const stopHabit = (habit) => {
         :checkedDates="habit.checkedDates"
         :currentDate="route.params.date"
         positiveAction="Complete"
-        negativeAction="Stop"
+        negativeAction="Stop..."
         @positiveAction="completeHabit(habit, route.params.date)"
         @negativeAction="openStopDialog(habit)"
       />

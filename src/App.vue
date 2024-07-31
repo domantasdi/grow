@@ -1,6 +1,4 @@
 <script setup>
-// import { ref } from 'vue';
-
 import { RouterLink, RouterView } from 'vue-router';
 
 const isoDate = new Date().toISOString().slice(0, 10);
@@ -9,6 +7,12 @@ const isoDate = new Date().toISOString().slice(0, 10);
 <template>
   <div class="wrapper">
     <nav>
+      <RouterLink :to="{ name: 'day', params: { date: isoDate } }">
+        <div class="wrapper-icon">
+          <img src="./assets/grow.svg" alt="grow logo" />
+          <p>Grow</p>
+        </div>
+      </RouterLink>
       <div>
         <RouterLink :to="{ name: 'day', params: { date: isoDate } }"
           >Today</RouterLink
@@ -20,7 +24,7 @@ const isoDate = new Date().toISOString().slice(0, 10);
     <RouterView />
 
     <div class="disclaimer">
-      <p><strong>Remember:</strong></p>
+      <p id="highlight"><strong>Remember:</strong></p>
       <p>
         All big things come from small beginnings. The seed of every habit is a
         single, tiny decision. But as that decision is repeated, a habit sprouts
@@ -35,6 +39,23 @@ const isoDate = new Date().toISOString().slice(0, 10);
 </template>
 
 <style scoped>
+.wrapper-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.wrapper-icon img {
+  height: 16px;
+  width: 16px;
+}
+
+nav .wrapper-icon p {
+  padding: 0;
+  color: #fff;
+}
+
 h1 {
   color: #919191;
   font-size: 16px;
@@ -42,8 +63,7 @@ h1 {
 }
 
 .disclaimer {
-  /* margin-top: 24px; */
-  font-size: 0.75rem;
+  font-size: 12px;
   line-height: 150%;
   color: #7b7e79;
 }
@@ -51,7 +71,11 @@ h1 {
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 24px;
+}
+
+p#highlight {
+  color: #9b9e99;
 }
 
 header {
@@ -69,16 +93,16 @@ nav {
   text-align: center;
 }
 
-nav div:first-child {
+nav div:last-child {
   display: flex;
   gap: 16px;
 }
 
-p:first-child {
+.disclaimer p:first-child {
   padding-bottom: 8px;
 }
 
-p:last-child {
+.disclaimer p:last-child {
   padding-top: 8px;
   font-style: italic;
 }

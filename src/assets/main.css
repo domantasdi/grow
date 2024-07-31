@@ -9,13 +9,24 @@
 a,
 .green {
   text-decoration: none;
-  color: hsl(160deg 100% 37% / 100%);
-  transition: 0.4s;
+  color: #00bd7e;
+  background: linear-gradient(to right, #292b27, #292b27),
+    linear-gradient(to right, #00bd7e, #00f0a0);
+  background-size:
+    100% 1px,
+    0 1px;
+  background-position:
+    100% 100%,
+    0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.25s ease-in;
 }
 
 @media (hover: hover) {
   a:hover {
-    background-color: hsl(160deg 100% 37% / 20%);
+    background-size:
+      0 1px,
+      100% 1px;
   }
 }
 
@@ -41,21 +52,21 @@ a,
 
 @media (width >= 1440px) {
   #app {
-    margin: 0 20%;
+    margin: 0 25%;
     margin-top: 48px;
   }
 }
 
 @media (width >= 1920px) {
   #app {
-    margin: 0 30%;
+    margin: 0 35%;
     margin-top: 48px;
   }
 }
 
 @media (width >= 2560px) {
   #app {
-    margin: 0 35%;
+    margin: 0 37%;
     margin-top: 48px;
   }
 }
