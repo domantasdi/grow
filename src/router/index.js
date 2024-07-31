@@ -18,6 +18,10 @@ const routes = [
     path: '/day/:date',
     name: 'day',
     component: () => import('../views/DayView.vue')
+  },
+  {
+    path: '/:notFound',
+    component: () => import('../views/NotFound.vue')
   }
 ];
 

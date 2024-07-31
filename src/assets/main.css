@@ -19,22 +19,43 @@ a,
   }
 }
 
+@media (width <= 768px) {
+  #app {
+    margin: 0 5%;
+  }
+}
+
+@media ((width > 768px) and (width <= 1023px)) {
+  #app {
+    margin: 0 10%;
+    margin-top: 24px;
+  }
+}
+
 @media (width >= 1024px) {
   #app {
-    margin: 0 30%;
+    margin: 0 15%;
     margin-top: 48px;
   }
 }
 
 @media (width >= 1440px) {
   #app {
-    margin: 0 35%;
+    margin: 0 20%;
     margin-top: 48px;
   }
 }
 
-@media (width <= 768px) {
+@media (width >= 1920px) {
   #app {
-    margin: 0 5%;
+    margin: 0 30%;
+    margin-top: 48px;
+  }
+}
+
+@media (width >= 2560px) {
+  #app {
+    margin: 0 35%;
+    margin-top: 48px;
   }
 }

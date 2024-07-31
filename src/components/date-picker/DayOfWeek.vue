@@ -140,4 +140,16 @@ div.day {
 p.day-word {
   font-weight: 600;
 }
+
+@media (width <= 447px) {
+  div.wrapper {
+    padding: 4px;
+    gap: 8px;
+  }
+
+  div.day {
+    align-items: center;
+    font-size: 12px;
+  }
+}
 </style>
