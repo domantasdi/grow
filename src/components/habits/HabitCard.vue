@@ -192,7 +192,7 @@ p.habit {
 }
 
 p.trigger {
-  color: #666;
+  color: #585858;
   font-weight: 400;
 }
 

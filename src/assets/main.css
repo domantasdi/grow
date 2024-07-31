@@ -9,7 +9,7 @@
 a,
 .green {
   text-decoration: none;
-  color: #00bd7e;
+  color: #80ed99;
   background: linear-gradient(to right, #292b27, #292b27),
     linear-gradient(to right, #00bd7e, #00f0a0);
   background-size:
@@ -19,7 +19,7 @@ a,
     100% 100%,
     0 100%;
   background-repeat: no-repeat;
-  transition: background-size 0.25s ease-in;
+  transition: background-size 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (hover: hover) {
