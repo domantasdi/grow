@@ -173,6 +173,23 @@ p.error-message {
   color: #e94747;
 }
 
+@media ((width >= 769px) and (width < 1240px)) {
+  div.details {
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  div.details input {
+    width: 100%;
+  }
+
+  div.wrapper div.details div {
+    color: #1a1a1a;
+    flex-grow: 1;
+  }
+}
+
 @media (width <= 768px) {
   div.details {
     flex-direction: column;

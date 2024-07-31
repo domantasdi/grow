@@ -15,9 +15,17 @@ const routes = [
     component: () => import('../views/HabitManagement.vue')
   },
   {
-    path: '/day/:date',
+    path: '/day/:date(\\d{4}-\\d{2}-\\d{2})',
     name: 'day',
     component: () => import('../views/DayView.vue')
+  },
+  {
+    path: '/day/:notFound',
+    component: () => import('../views/NotFound.vue')
+  },
+  {
+    path: '/:notFound',
+    component: () => import('../views/NotFound.vue')
   }
 ];
 

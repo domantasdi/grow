@@ -196,6 +196,12 @@ p.trigger {
   font-weight: 400;
 }
 
+@media (width >= 1241px) {
+  div.details {
+    width: 100%;
+  }
+}
+
 @media (width <= 768px) {
   div.icon {
     display: none;

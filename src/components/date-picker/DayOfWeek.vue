@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+// import { computed } from 'vue';
 
 const props = defineProps({
   monthAndDay: {
@@ -18,30 +18,10 @@ const props = defineProps({
     type: String,
     required: true
   },
-  noHabitsCompleted: {
-    type: Boolean,
-    required: true
-  },
-  atLeastOneCompleted: {
-    type: Boolean,
-    required: true
-  },
-  allCompleted: {
-    type: Boolean,
+  status: {
+    type: String,
     required: true
   }
-});
-
-const isCompleted = computed(() => {
-  return props.allCompleted === true;
-});
-
-const someCompleted = computed(() => {
-  return props.atLeastOneCompleted === true;
-});
-
-const noCompleted = computed(() => {
-  return props.noHabitsCompleted === true;
 });
 </script>
 
@@ -50,9 +30,9 @@ const noCompleted = computed(() => {
     :class="[
       'wrapper',
       {
-        completed: isCompleted,
-        some: someCompleted,
-        none: noCompleted,
+        completed: props.status === 'all',
+        some: props.status === 'some',
+        none: props.status === 'none',
         active: $route.params.date === isoDate
       }
     ]"
@@ -159,5 +139,17 @@ div.day {
 
 p.day-word {
   font-weight: 600;
+}
+
+@media (width <= 447px) {
+  div.wrapper {
+    padding: 4px;
+    gap: 8px;
+  }
+
+  div.day {
+    align-items: center;
+    font-size: 12px;
+  }
 }
 </style>

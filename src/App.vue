@@ -92,6 +92,7 @@ p:last-child {
     flex-direction: row;
     gap: 16px;
     align-items: center;
+    margin-top: 24px;
   }
 }
 
