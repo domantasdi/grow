@@ -140,8 +140,6 @@ div.button {
   min-width: 96px;
   width: 96px;
   border-left: 1px solid #c3c3c3;
-
-  /* padding: 24px; */
 }
 
 div.button button {
@@ -153,6 +151,7 @@ div.button button {
   border: none;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+  font-weight: 400;
 }
 
 div.button button:hover {
