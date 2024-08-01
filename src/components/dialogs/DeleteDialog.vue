@@ -14,10 +14,20 @@ defineEmits(['close', 'commit']);
         </p>
       </div>
       <div class="buttons">
-        <div @keydown="Tab" @click="$emit('close')" class="positive-button">
+        <div
+          tabindex="0"
+          @keyup.enter="$emit('close')"
+          @click="$emit('close')"
+          class="positive-button"
+        >
           <slot name="positive-action">Yes</slot>
         </div>
-        <div @keydown="Tab" @click="$emit('commit')" class="negative-button">
+        <div
+          tabindex="0"
+          @keyup.enter="$emit('commit')"
+          @click="$emit('commit')"
+          class="negative-button"
+        >
           <slot name="negative-action">No</slot>
         </div>
       </div>

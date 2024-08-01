@@ -85,7 +85,7 @@ const stopHabit = (habit) => {
 <template>
   <main>
     <h1>{{ $route.params.date }}</h1>
-    <div class="week-navigation">
+    <div v-if="habits.length > 0" class="week-navigation">
       <div v-for="selectedDay in weekStatus" :key="selectedDay.isoDate">
         <RouterLink
           :to="{ name: 'day', params: { date: selectedDay.isoDate } }"
@@ -152,6 +152,7 @@ const stopHabit = (habit) => {
 <style>
 div.information {
   color: #fff;
+  margin-top: 16px;
 }
 
 div.habit-cards {

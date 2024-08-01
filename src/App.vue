@@ -1,19 +1,47 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+import { useOnboardingStore } from './store/useOnboardingStore';
+import OnboardingOverlay from './components/onboarding/OnboardingOverlay.vue';
+
+const onboardingOverlay = useOnboardingStore();
+
+const openOnboardingOverlay = () => {
+  onboardingOverlay.value = true;
+};
+
+const closeOnboardingOverlay = () => {
+  onboardingOverlay.value = false;
+};
 
 const isoDate = new Date().toISOString().slice(0, 10);
 </script>
 
 <template>
+  <OnboardingOverlay
+    v-if="onboardingOverlay === true"
+    @close="closeOnboardingOverlay"
+  ></OnboardingOverlay>
   <div class="wrapper">
     <nav>
       <RouterLink :to="{ name: 'day', params: { date: isoDate } }">
         <div class="wrapper-icon">
-          <img src="./assets/grow.svg" alt="grow logo" />
+          <img
+            src="./assets/grow.svg"
+            alt="Logo of the application. A symbol representing stairs is displayed on a dark background."
+          />
           <p>Grow</p>
         </div>
       </RouterLink>
+
       <div>
+        <p
+          @keydown.enter="openOnboardingOverlay"
+          id="onboarding"
+          @click="openOnboardingOverlay"
+          tabindex="0"
+        >
+          Guide
+        </p>
         <RouterLink :to="{ name: 'day', params: { date: isoDate } }"
           >Today</RouterLink
         >
@@ -39,6 +67,15 @@ const isoDate = new Date().toISOString().slice(0, 10);
 </template>
 
 <style scoped>
+p#onboarding {
+  color: #919191;
+}
+
+p#onboarding:hover {
+  color: #80ed99;
+  cursor: help;
+}
+
 .wrapper-icon {
   display: flex;
   flex-direction: row;

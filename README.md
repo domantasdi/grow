@@ -15,10 +15,21 @@ This section outlines the ups and downs I've encountered while doing this task.
   - The project has a fairly good UX and a decent UI;
   - I have fulfilled my goals set out before joining the Turing College.
 - ⬇ The downs:
-  - I still find Vue confusing and it was difficult to navigate the project while trying to remember props, template slots, computed values, etc;
+  - I still find Vue confusing and it was difficult to navigate the project while trying to remember props, template slots, computed values, etc.;
+  - Due to the difficulty of understanding Vue well, my code organization is average at most;
   - I had to follow tutorials, get help from GPT in order to proceed in some areas.
 
+# Features
+
+- **Habit management.** Add, edit, delete or stop the habits you want to track;
+- **Habit-Trigger link.** Habits are always triggered by some other action or circumstances. Outline the trigger to have a greater chance of successfully tracking your habit;
+- **Accessible design.** You're not required to use a mouse to navigate around the app. The colors used in the application meet the WCAG standards;
+- **Non-intrusive help overlay.** If you ever need a reminder, you can always open the Help overlay;
+- **User Interface and User Experience.** I paid a lot of attention to the app's design and user experience to make it feel just right design and experience-wise.
+
 # How to use Grow
+
+Use Grow with either your mouse and keyboard or just the keyboard. Navigate using the `TAB` key and submit your inputs with the `ENTER` key.
 
 ## User interface
 
@@ -54,7 +65,13 @@ The day selector's style is outlined by the following conditions:
 
 You are free to stop a habit from tracking by clicking the `Stop...` button on the habit itself. This will open a confirmation dialog to make sure you don't stop a habit by accident. This will prevent the habit from appearing from the day forward.
 
-## Setting up the application
+### Help section
+
+If you ever need a brief reminder on how everything works, click `Guide` at the top of the page at anytime.
+
+# Setting up the application
+
+## Dependencies and compilation
 
 ### Install the required dependencies
 
@@ -72,7 +89,7 @@ npm run build
 npm run preview
 ```
 
-# A sample array of habit objects
+## A sample array of habit objects
 
 If you wish, feel free to use this minified `localStorage` array of objects for testing purposes:
 

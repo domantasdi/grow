@@ -55,7 +55,7 @@ const isCompleted = computed(() => {
       <div
         role="button"
         tabindex="0"
-        @keydown="Tab"
+        @keyup.enter="$emit('positiveAction', route.params.date)"
         @click="$emit('positiveAction', route.params.date)"
         :class="['positive-button', { completed: isCompleted }]"
       >
@@ -64,7 +64,7 @@ const isCompleted = computed(() => {
       <div
         role="button"
         tabindex="0"
-        @keydown="Tab"
+        @keyup.enter="$emit('negativeAction')"
         @click="$emit('negativeAction')"
         class="negative-button"
       >
