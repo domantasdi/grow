@@ -16,7 +16,13 @@
             <h2>Managing habits</h2>
             <p>
               Navigate to the
-              <RouterLink :to="{ name: 'habits' }">Habit management</RouterLink>
+              <RouterLink
+                tabindex="0"
+                @keydown.enter="$emit('close')"
+                @click="$emit('close')"
+                :to="{ name: 'habits' }"
+                >Habit management</RouterLink
+              >
               section to add, edit or delete your habits.
             </p>
           </div>
