@@ -54,6 +54,7 @@ const addHabit = () => {
           type="text"
           v-model="habitTitle"
           placeholder="Enter a habit"
+          autocomplete="off"
         />
       </div>
       <div>
@@ -64,6 +65,7 @@ const addHabit = () => {
           type="text"
           v-model="habitTrigger"
           placeholder="Enter a trigger"
+          autocomplete="off"
         />
       </div>
     </div>

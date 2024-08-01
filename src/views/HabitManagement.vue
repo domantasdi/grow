@@ -99,7 +99,12 @@ const deleteHabits = () => {
       />
     </div>
     <div v-if="habits.length > 1" class="delete-all-habits">
-      <button id="mass-delete" type="button" @click="openMassDeleteDialog()">
+      <button
+        @keydown.enter="openMassDeleteDialog()"
+        id="mass-delete"
+        type="button"
+        @click="openMassDeleteDialog()"
+      >
         Delete all habits...
       </button>
     </div>

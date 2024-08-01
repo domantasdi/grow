@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/require-default-prop -->
 <script setup>
 import { ref, watch } from 'vue';
 
@@ -50,6 +49,7 @@ const commitChanges = () => {
               name="habit-title"
               v-model="newHabitTitle"
               :placeholder="initialTitle"
+              autocomplete="off"
             />
           </div>
           <div class="trigger">
@@ -58,16 +58,27 @@ const commitChanges = () => {
               name="habit-trigger"
               v-model="newHabitTrigger"
               :placeholder="initialTrigger"
+              autocomplete="off"
             />
           </div>
         </div>
         <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
       </div>
       <div class="buttons">
-        <div @keydown="Tab" @click="$emit('close')" class="negative-button">
+        <div
+          @keyup.enter="$emit('close')"
+          @click="$emit('close')"
+          class="negative-button"
+          tabindex="0"
+        >
           <slot name="negative-action">No</slot>
         </div>
-        <div @keydown="Tab" @click="commitChanges" class="positive-button">
+        <div
+          @keyup.enter="commitChanges"
+          @click="commitChanges"
+          class="positive-button"
+          tabindex="0"
+        >
           <slot name="positive-action">Yes</slot>
         </div>
       </div>
