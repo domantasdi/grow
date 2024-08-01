@@ -175,7 +175,7 @@ button#mass-delete {
   height: 48px;
   min-height: 48px;
   color: #fff;
-  font-weight: 400;
+  font-weight: 500;
   border-radius: 8px;
   background-color: #b30000;
   cursor: pointer;
