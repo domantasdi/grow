@@ -112,6 +112,7 @@ code#code-negative {
 }
 
 div.backdrop {
+  z-index: 1;
   position: fixed;
   inset: 0;
   background-color: rgb(0 0 0 / 50%);

@@ -97,6 +97,8 @@ div.details {
   align-items: flex-start;
   flex-grow: 1;
   padding: 24px;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 div.details.completed {
