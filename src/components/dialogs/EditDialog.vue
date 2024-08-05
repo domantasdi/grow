@@ -87,6 +87,11 @@ const commitChanges = () => {
 </template>
 
 <style scoped>
+p.body-text {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
 div.backdrop {
   position: fixed;
   inset: 0;
