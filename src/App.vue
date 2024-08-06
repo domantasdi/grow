@@ -40,12 +40,12 @@ const isoDate = new Date().toISOString().slice(0, 10);
           @click="openOnboardingOverlay"
           tabindex="0"
         >
-          Guide
+          Learn
         </p>
         <RouterLink :to="{ name: 'day', params: { date: isoDate } }"
-          >Today</RouterLink
+          >Track</RouterLink
         >
-        <RouterLink :to="{ name: 'habits' }">Manage habits</RouterLink>
+        <RouterLink :to="{ name: 'habits' }">Manage</RouterLink>
       </div>
     </nav>
 
